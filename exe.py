@@ -1,14 +1,21 @@
 agenda = {}
 
+
+def resposta_sim(resposta):
+    return resposta.strip().lower() == 's'
+
 def incluir_novo_nome(nome, telefones):
     agenda[nome] = telefones
 
 def incluir_telefone(nome, telefone):
     if nome in agenda:
-        agenda[nome].append(telefone)
+        if telefone not in agenda[nome]:
+            agenda[nome].append(telefone)
+        else:
+            print(f"TELEFONE {telefone} JÁ ESTÁ CADASTRADO PARA {nome}.")
     else:
         resposta = input(f"{nome} NÃO ESTÁ NA AGENDA. DESEJA INCLUIR? (s/n): ")
-        if resposta.lower() == 's':
+        if resposta_sim(resposta):
             incluir_novo_nome(nome, [telefone])
 
 def excluir_telefone(nome, telefone):
@@ -34,7 +41,7 @@ def consultar_telefone(nome):
     else:
         print(f"{nome} NÃO ESTÁ NA AGENDA.")
         resposta = input("DESEJA INCLUIR UM NOVO NOME? (s/n): ")
-        if resposta.lower() == 's':
+        if resposta_sim(resposta):
             telefone = input(f"Informe o telefone para {nome}: ")
             incluir_novo_nome(nome, [telefone])
 
@@ -68,4 +75,6 @@ def menu():
             print("Opção inválida, tente novamente.")
 
 incluir_novo_nome('João', ['1234-5678', '9876-5432'])
-menu()
+
+if __name__ == '__main__':
+    menu()
